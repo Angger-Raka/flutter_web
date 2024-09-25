@@ -1,0 +1,4 @@
+const String baseUrl = 'http://localhost/api';
+const String token =
+    'deb7be7eb24335bac0ddd1627246bb59c2069d586a3a8cf5793d7685cb3910c5c0b914a3e845e679662168eb367650c1010a7f86705e39167d83dbb4f271c07c3af1306859d29f001dc6fe8bd763fe62f4341e8537fe1578c3e13d5a6d8df6e741dba1c731ad68a512efbe1bc95ee49b0beb23e942aca7195fb85f3d8e847b7c';
+const bool isOffset = false;

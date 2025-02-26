@@ -1,11 +1,13 @@
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
+import 'package:flutter_web/app/data/data.dart';
 
 import 'process.dart';
 
 class Order extends Equatable {
   final int? id;
+  final int? idClient;
   final String? tanggalMasuk;
   final String? tanggalSelesai;
   final dynamic judul;
@@ -21,10 +23,13 @@ class Order extends Equatable {
   final String? laminasiCover;
   final String? finishingCover;
   final String? phoneNumber;
+  final bool? isActive;
   final List<Process>? processes;
+  final Client? client;
 
   const Order({
     this.id,
+    this.idClient,
     this.tanggalMasuk,
     this.tanggalSelesai,
     this.judul,
@@ -40,11 +45,14 @@ class Order extends Equatable {
     this.laminasiCover,
     this.finishingCover,
     this.phoneNumber,
+    this.isActive,
     this.processes = const [],
+    this.client,
   });
 
   factory Order.fromMap(Map<String, dynamic> data) => Order(
         id: data['id'] as int?,
+        idClient: data['id_client'] as int?,
         tanggalMasuk: data['tanggal_masuk'] as String?,
         tanggalSelesai: data['tanggal_selesai'] as String?,
         judul: data['Judul'] as dynamic,
@@ -65,6 +73,10 @@ class Order extends Equatable {
             : List<Process>.from(
                 data['processes'].map((x) => Process.fromMap(x)),
               ),
+        isActive: data['is_active'] as bool?,
+        client: data['client'] == null
+            ? null
+            : Client.fromMap(data['client'] as Map<String, dynamic>),
       );
 
   Map<String, dynamic> toMap() => {
@@ -85,6 +97,8 @@ class Order extends Equatable {
         'finishing_cover': finishingCover,
         'phone_number': phoneNumber,
         'processes': processes?.map((x) => x.toMap()).toList(),
+        'is_active': isActive,
+        'client': client?.toMap(),
       };
 
   /// `dart:convert`
@@ -117,6 +131,8 @@ class Order extends Equatable {
     String? finishingCover,
     String? phoneNumber,
     List<Process>? processes,
+    bool? isActive,
+    Client? client,
   }) {
     return Order(
       id: id ?? this.id,
@@ -136,6 +152,8 @@ class Order extends Equatable {
       finishingCover: finishingCover ?? this.finishingCover,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       processes: processes ?? this.processes,
+      isActive: isActive ?? this.isActive,
+      client: client ?? this.client,
     );
   }
 
@@ -159,6 +177,8 @@ class Order extends Equatable {
       finishingCover,
       phoneNumber,
       processes,
+      isActive,
+      client,
     ];
   }
 }

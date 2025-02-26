@@ -18,7 +18,6 @@ class ListOrderBloc extends Bloc<ListOrderEvent, ListOrderState> {
 
   final OrderDatasources datasource;
 
-  @override
   Future<void> getAll(
     GetAllOrder event,
     Emitter<ListOrderState> emit,
@@ -26,7 +25,9 @@ class ListOrderBloc extends Bloc<ListOrderEvent, ListOrderState> {
     emit(ListOrderLoading());
 
     try {
-      final result = await datasource.getAllOrder();
+      final result = await datasource.getAllOrder(
+        isOffset: event.isOffset,
+      );
 
       emit(ListOrderSuccess(result));
     } catch (e) {

@@ -8,10 +8,11 @@ class OrderDatasources {
 
   OrderDatasources({required this.dio});
 
-  Future<bool> updateOrder(
-    String id,
-    Order order,
-  ) async {
+  Future<bool> updateOrder({
+    required String id,
+    required Order order,
+    required int clientId,
+  }) async {
     try {
       final result = await dio.put(
         '/orders/$id',
@@ -30,7 +31,10 @@ class OrderDatasources {
             "cetak_isi": order.cetakIsi,
             "cetak_cover": order.cetakCover,
             "laminasi_cover": order.laminasiCover,
+            "phone_number": order.phoneNumber,
             "finishing_cover": order.finishingCover,
+            "is_active": order.isActive,
+            "client": clientId,
           }
         },
       );
@@ -48,28 +52,47 @@ class OrderDatasources {
     }
   }
 
-  Future<List<Order>> getAllOrder() async {
+  Future<Order> getOrder({
+    required String orderId,
+    bool isOffset = false,
+  }) async {
+    try {
+      return Order();
+    } catch (e) {
+      print(e);
+      throw Exception(e);
+    }
+  }
+
+  Future<List<Order>> getAllOrder({
+    bool isOffset = false,
+  }) async {
     try {
       List<Order> orders = [];
 
-      const additionalParams =
+      String additionalParams =
           '&filters[jenis][\$eq]=${isOffset ? 'Offset' : 'POD'}';
 
+      print('additionalParams: $additionalParams');
       final result = await dio.get(
-        '/orders?populate[processes][populate]=steps&sort=tanggal_selesai:asc$additionalParams',
+        '/orders?populate[client]=*&populate[processes][populate]=steps&sort=tanggal_selesai:asc$additionalParams',
       );
 
       if (result.statusCode == 200) {
         var listData = result.data['data'] as List<dynamic>;
+        print('listData: $listData');
         for (var element in listData) {
           final attributes = element['attributes'];
           final processes = attributes['processes']['data'] as List<dynamic>;
+          final client = attributes['client']['data'] as Map<String, dynamic>;
+
           var order = Order(
             id: element['id'],
+            idClient: attributes['client']['data']['id'] as int?,
             tanggalMasuk: attributes['tanggal_masuk'],
             tanggalSelesai: attributes['tanggal_selesai'],
             judul: attributes['judul'],
-            pengorder: attributes['pengorder'],
+            pengorder: attributes['client']['data']['attributes']['name'],
             oplahSoftCover: attributes['oplah_soft_cover'],
             oplahHardCover: attributes['oplah_hard_cover'],
             oplahCoverLidah: attributes['oplah_cover_lidah'],
@@ -81,6 +104,7 @@ class OrderDatasources {
             laminasiCover: attributes['laminasi_cover'],
             finishingCover: attributes['finishing_cover'],
             phoneNumber: attributes['phone_number'],
+            isActive: attributes['is_active'],
             processes: processes.map((element) {
               final attributes = element['attributes'];
               final steps = attributes['steps']['data'] as List<dynamic>;
@@ -90,7 +114,7 @@ class OrderDatasources {
                 statusProses: attributes['status_proses'],
                 steps: steps.map((element) {
                   final attributes = element['attributes'];
-                  return Step(
+                  return Stage(
                     id: element['id'],
                     namaStep: attributes['nama_step'],
                     statusStep: attributes['status_step'],
@@ -98,6 +122,12 @@ class OrderDatasources {
                 }).toList(),
               );
             }).toList(),
+            client: Client(
+              id: client['id'],
+              name: client['attributes']['name'],
+              address: client['attributes']['address'],
+              phone: client['attributes']['phone'],
+            ),
           );
 
           orders.add(order);

@@ -18,6 +18,9 @@ class RequestAddOrder extends Equatable {
   final String? laminasiCover;
   final String? finishingCover;
   final String? jenis;
+  final String? phoneNumber;
+  final String? client;
+  final bool? isActive;
 
   const RequestAddOrder({
     this.tanggalMasuk,
@@ -35,6 +38,9 @@ class RequestAddOrder extends Equatable {
     this.laminasiCover,
     this.finishingCover,
     this.jenis,
+    this.phoneNumber,
+    this.client,
+    this.isActive,
   });
 
   factory RequestAddOrder.fromMap(Map<String, dynamic> data) {
@@ -54,6 +60,9 @@ class RequestAddOrder extends Equatable {
       laminasiCover: data['laminasi_cover'] as String?,
       finishingCover: data['finishing_cover'] as String?,
       jenis: data['jenis'] as String?,
+      phoneNumber: data['phone_number'] as String?,
+      client: data['client'] as String?,
+      isActive: data['is_active'] as bool?,
     );
   }
 
@@ -73,6 +82,9 @@ class RequestAddOrder extends Equatable {
         'laminasi_cover': laminasiCover,
         'finishing_cover': finishingCover,
         'jenis': jenis,
+        'phone_number': phoneNumber,
+        'client': client,
+        'is_active': isActive,
       };
 
   /// `dart:convert`
@@ -103,6 +115,9 @@ class RequestAddOrder extends Equatable {
     String? laminasiCover,
     String? finishingCover,
     String? jenis,
+    String? phoneNumber,
+    String? client,
+    bool? isActive,
   }) {
     return RequestAddOrder(
       tanggalMasuk: tanggalMasuk ?? this.tanggalMasuk,
@@ -120,6 +135,9 @@ class RequestAddOrder extends Equatable {
       laminasiCover: laminasiCover ?? this.laminasiCover,
       finishingCover: finishingCover ?? this.finishingCover,
       jenis: jenis ?? this.jenis,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      client: client ?? this.client,
+      isActive: isActive ?? this.isActive,
     );
   }
 
@@ -141,6 +159,9 @@ class RequestAddOrder extends Equatable {
       laminasiCover,
       finishingCover,
       jenis,
+      phoneNumber,
+      client,
+      isActive,
     ];
   }
 }

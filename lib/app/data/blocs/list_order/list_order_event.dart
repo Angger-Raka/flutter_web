@@ -7,4 +7,13 @@ sealed class ListOrderEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetAllOrder extends ListOrderEvent {}
+class GetAllOrder extends ListOrderEvent {
+  const GetAllOrder(
+    this.isOffset,
+  );
+
+  final bool isOffset;
+
+  @override
+  List<Object> get props => [isOffset];
+}

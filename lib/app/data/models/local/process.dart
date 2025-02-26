@@ -2,13 +2,13 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
-import 'step.dart';
+import 'stage.dart';
 
 class Process extends Equatable {
   final int? id;
   final String? namaProses;
   final String? statusProses;
-  final List<Step>? steps;
+  final List<Stage>? steps;
 
   const Process({
     this.id,
@@ -23,7 +23,7 @@ class Process extends Equatable {
         statusProses: data['status_proses'] as String?,
         steps: data['steps'] == null
             ? null
-            : List<Step>.from(data['steps'].map((x) => Step.fromMap(x))),
+            : List<Stage>.from(data['steps'].map((x) => Stage.fromMap(x))),
       );
 
   Map<String, dynamic> toMap() => {
@@ -52,7 +52,7 @@ class Process extends Equatable {
     DateTime? createdAt,
     DateTime? updatedAt,
     DateTime? publishedAt,
-    List<Step>? steps,
+    List<Stage>? steps,
   }) {
     return Process(
       id: id ?? this.id,

@@ -1,6 +1,10 @@
-export './test/test_bloc.dart';
-export './add_order/add_order_bloc_bloc.dart';
+export './order/order_bloc.dart';
+export './step/step_bloc.dart';
+export './client/client_bloc.dart';
+
+export './list_client/list_client_bloc.dart';
+export './get_client/get_client_bloc.dart';
 export './list_order/list_order_bloc.dart';
-export './delete_order/delete_order_bloc.dart';
-export './update_order/update_order_bloc.dart';
-export './update_step/update_step_bloc.dart';
+export './selection/selection_bloc.dart';
+export './list_printer/list_printer_bloc.dart';
+export './printer/printer_bloc.dart';
